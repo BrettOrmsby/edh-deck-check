@@ -1,0 +1,18 @@
+@import "flexboxgrid";
+@import "@picocss/pico";
+h1 {
+    text-align: center;
+    margin-top: 1em;
+}
+hgroup {
+    text-align: center;
+}
+.center {
+    text-align: center;
+}
+
+li[role=list] > a::after {display: none;}
+
+dialog * {
+    pointer-events: all;
+}
