@@ -41,7 +41,7 @@ onMounted(async () => {
 
 const deckToCards = (deck) => {
   const onlyInDeck = deck.split("SIDEBOARD:")[0];
-  return onlyInDeck
+  const cards = onlyInDeck
     .split(/\n/g)
     .filter((e) => e.trim() !== "")
     .map((e) => {
@@ -51,6 +51,14 @@ const deckToCards = (deck) => {
       );
       return e.trim();
     });
+  let finalCards = [];
+  for (let card of cards) {
+    if (card.includes("//")) {
+      finalCards = [...finalCards, ...card.split("//").map((e) => e.trim())];
+    }
+      finalCards.push(card);
+  }
+  return finalCards;
 };
 
 const findCombos = (deck, identity) => {

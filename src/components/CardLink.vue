@@ -10,13 +10,12 @@ import { addCards } from "../compostables/useCards";
 import CardImage from "./CardImage.vue";
 const props = defineProps(["name"]);
 
-addCards([props.name]);
-
 const a = ref();
 const revealed = ref(false);
 
 const toggleOn = () => {
   revealed.value = true;
+  addCards([props.name]);
 };
 const toggleOff = () => {
   revealed.value = false;
@@ -31,18 +30,6 @@ onUnmounted(() => {
   a.value?.removeEventListener("mouseenter", toggleOn);
   a.value?.removeEventListener("mouseleave", toggleOff);
 });
-//addEventListener('mouseleave', (event) => {})
-/* const specifiedElement = document.getElementById("a");
-
-document.addEventListener("click", (event) => {
-  const isClickInside = specifiedElement.contains(event.target);
-
-  if (!isClickInside) {
-    // ...
-  }
-});
-*/
-//element.removeEventListener
 </script>
 
 <template>

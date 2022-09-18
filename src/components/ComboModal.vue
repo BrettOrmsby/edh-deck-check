@@ -8,6 +8,7 @@ export default {
 import CardImage from "./CardImage.vue";
 import { modal } from "../compostables/store.js";
 import { ref, computed } from "vue";
+import * as scryfall from "scryfall-client";
 
 const clickedOff = ref(true);
 const close = () => {
@@ -27,6 +28,31 @@ const header = computed(() => {
     (modal.modalCombo.cards.length >= 3 ? "..." : "")
   );
 });
+
+const formatHTML = (text) => {
+  if (!text) {
+    return "";
+  }
+  return text
+    .trim()
+    .split(/\.(?!$)/g)
+    .map((e) => "<li>" + replaceSymbols(e.replace(".", "")) + ".</li>")
+    .join("");
+};
+
+const replaceSymbols = (text) => {
+  let matches = text.match(/{(.)(\/(.))?}/g);
+  if (matches) {
+    matches.forEach((symbol) => {
+      let key = symbol.slice(1, -1);
+      text = text.replace(
+        symbol,
+        '<img class="symbol" src="' + scryfall.getSymbolUrl(key) + '"/>'
+      );
+    });
+  }
+  return text;
+};
 </script>
 
 <template>
@@ -45,31 +71,12 @@ const header = computed(() => {
         />
       </div>
       <h4>Prerequisites</h4>
-      <ol>
-        <li
-          v-for="(before, index) in modal.modalCombo.before.split(/\.(?!$)/g)"
-          :key="index"
-        >
-          {{ before.replace(".", "") }}.
-        </li>
-      </ol>
+      <ul v-html="formatHTML(modal.modalCombo.before)"></ul>
       <h4>Steps</h4>
-      <ol>
-        <li
-          v-for="(step, index) in modal.modalCombo.howTo.split(/\.(?!$)/g)"
-          :key="index"
-        >
-          {{ step.replace(".", "") }}.
-        </li>
+      <ol v-html="formatHTML(modal.modalCombo.howTo)">
       </ol>
       <h4>Result</h4>
-      <ul>
-        <li
-          v-for="(result, index) in modal.modalCombo.result.split(/\.(?!$)/g)"
-          :key="index"
-        >
-          {{ result.replace(".", "") }}.
-        </li>
+      <ul v-html="formatHTML(modal.modalCombo.result)">
       </ul>
       <footer>
         <a

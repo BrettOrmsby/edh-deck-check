@@ -10,6 +10,11 @@ hgroup {
 .center {
     text-align: center;
 }
+.symbol {
+    width: 1em;
+    height: 1em;
+    padding: 0 0.1em;
+  }
 
 li[role=list] > a::after {display: none;}
 
