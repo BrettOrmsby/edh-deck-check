@@ -46,7 +46,7 @@ const deckToCards = (deck) => {
     .filter((e) => e.trim() !== "")
     .map((e) => {
       e = e.replace(
-        /^\s*(?:(?:x|X)?\d+\s*?)?([\s\S]*?)([(*][\s\S]*?)?$/gm,
+        /^\s*(?:\d+(?:x|X)?\s*?)?([\s\S]*?)([(*][\s\S]*?)?$/gm,
         "$1"
       );
       return e.trim();
@@ -56,7 +56,7 @@ const deckToCards = (deck) => {
     if (card.includes("//")) {
       finalCards = [...finalCards, ...card.split("//").map((e) => e.trim())];
     }
-      finalCards.push(card);
+    finalCards.push(card);
   }
   return finalCards;
 };

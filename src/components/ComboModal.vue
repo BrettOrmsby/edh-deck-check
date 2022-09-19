@@ -73,11 +73,9 @@ const replaceSymbols = (text) => {
       <h4>Prerequisites</h4>
       <ul v-html="formatHTML(modal.modalCombo.before)"></ul>
       <h4>Steps</h4>
-      <ol v-html="formatHTML(modal.modalCombo.howTo)">
-      </ol>
+      <ol v-html="formatHTML(modal.modalCombo.howTo)"></ol>
       <h4>Result</h4>
-      <ul v-html="formatHTML(modal.modalCombo.result)">
-      </ul>
+      <ul v-html="formatHTML(modal.modalCombo.result)"></ul>
       <footer>
         <a
           target="_blank"
