@@ -14,18 +14,30 @@ import { isXs } from "../compostables/useBreakPoints";
     </ul>
     <ul v-if="isXs" class="vertical-center">
       <li role="list" dir="rtl">
-        <a href="#" aria-haspopup="listbox" class="secondary"><VueFeather type="menu" size="1em"/></a>
-        <ul role="listbox" style="align-self:flex-start;margin-top:calc(1em + var(--nav-link-spacing-vertical) + var(--outline-width))">
+        <a href="#" aria-haspopup="listbox" class="secondary"
+          ><VueFeather type="menu" size="1em"
+        /></a>
+        <ul
+          role="listbox"
+          style="
+            align-self: flex-start;
+            margin-top: calc(
+              1em + var(--nav-link-spacing-vertical) + var(--outline-width)
+            );
+          "
+        >
           <li><RouterLink to="about">About</RouterLink></li>
           <li><RouterLink to="format">Format</RouterLink></li>
-          <li><a href="https://github.com/BrettOrmsby/deck-combo">Github</a></li>
+          <li>
+            <a href="https://github.com/BrettOrmsby/deck-combo">Github</a>
+          </li>
         </ul>
       </li>
     </ul>
     <ul v-else class="vertical-center">
-      <li><RouterLink to="about" >About</RouterLink></li>
-      <li><RouterLink to="format" >Format</RouterLink></li>
-      <li><a href="https://github.com/BrettOrmsby/deck-combo" >Github</a></li>
+      <li><RouterLink to="about">About</RouterLink></li>
+      <li><RouterLink to="format">Format</RouterLink></li>
+      <li><a href="https://github.com/BrettOrmsby/deck-combo">Github</a></li>
     </ul>
   </nav>
 </template>
@@ -39,7 +51,7 @@ nav {
   border-bottom: var(--border-width) solid var(--muted-border-color);
 }
 .vertical-center > li {
- display: flex; 
- align-items: center;
+  display: flex;
+  align-items: center;
 }
 </style>
