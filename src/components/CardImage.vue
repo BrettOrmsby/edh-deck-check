@@ -6,10 +6,10 @@ export default {
 
 <script setup>
 import { ref, computed, watchEffect } from "vue";
-import { getImage } from "../compostables/useCards";
+import { getCard, error } from "../compostables/useCards";
 const props = defineProps(["name"]);
 
-const image = computed(() => getImage(props.name));
+const image = computed(() => getCard(props.name).image);
 const loading = ref(true);
 const imageElement = ref();
 
@@ -29,8 +29,11 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="loader" v-show="loading"><span :aria-busy="loading"></span></div>
-  <img v-show="!loading" :src="image.value" ref="imageElement" />
+  <div class="loader" v-show="loading && !error">
+    <span :aria-busy="loading"></span>
+  </div>
+  <div class="loader" v-show="error"><span>An error ocurred</span></div>
+  <img v-show="!loading && !error" :src="image" ref="imageElement" />
 </template>
 
 <style scoped>

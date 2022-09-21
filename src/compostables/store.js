@@ -11,7 +11,3 @@ export const modal = reactive({
     result: "",
   },
 });
-
-export const cards = reactive({
-  cards: {},
-});

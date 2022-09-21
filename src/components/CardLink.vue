@@ -6,16 +6,14 @@ export default {
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { addCards } from "../compostables/useCards";
 import CardImage from "./CardImage.vue";
-const props = defineProps(["name"]);
+defineProps(["name"]);
 
 const a = ref();
 const revealed = ref(false);
 
 const toggleOn = () => {
   revealed.value = true;
-  addCards([props.name]);
 };
 const toggleOff = () => {
   revealed.value = false;
