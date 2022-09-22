@@ -30,12 +30,20 @@ watchEffect(() => {
 
 <template>
   <a :href="card.url" target="_blank">
-  <div class="loader" v-show="loading && !error">
-    <span :aria-busy="loading"></span>
-  </div>
-  <div class="loader" v-show="error"><span>An error ocurred</span></div>
-  <img v-show="!loading && !error" :src="card.image" ref="imageElement" :alt="name"/>
-</a>
+    <div class="background">
+      <div class="loader" v-show="loading && !error">
+        <span :aria-busy="loading"></span>
+      </div>
+      <div class="loader" v-show="error"><span>An error ocurred</span></div>
+      <img
+        v-show="!loading && !error"
+        :src="card.image"
+        ref="imageElement"
+        :alt="name"
+      />
+      <small>${{ card.price }}</small>
+    </div>
+  </a>
 </template>
 
 <style scoped>
@@ -45,10 +53,24 @@ img,
   height: 279.19px;
 }
 .loader {
-  background-color: var(--card-sectionning-background-color);
+  background-color: var(--dropdown-background-color);
   border: 0.5px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.background {
+  background-color: var(--dropdown-background-color);
+  border-radius: 8px;
+  width: 200px;
+}
+a {
+  text-decoration: none;
+  color: var(--primary);
+}
+small {
+  display: block;
+  text-align: center;
+  font-size: 0.7em;
 }
 </style>

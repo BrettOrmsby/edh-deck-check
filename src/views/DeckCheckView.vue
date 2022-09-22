@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 import { ref, watchEffect, onMounted } from "vue";
 import ComboList from "../components/ComboList.vue";
 import ComboModule from "../components/ComboModal.vue";
-import {store} from "../compostables/store.js"
+import { store } from "../compostables/store.js";
 
 const isLoading = ref(true);
 const isError = ref(false);

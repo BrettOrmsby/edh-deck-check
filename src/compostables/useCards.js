@@ -36,7 +36,7 @@ const loadCards = async () => {
       name: card.name,
       image: images.png,
       url: card.scryfall_uri,
-      price: card.prices.usd
+      price: card.prices.usd,
     });
   }
   cards.value = cardsArr;

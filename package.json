@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.0.2",
     "@picocss/pico": "^1.5.3",
     "flexboxgrid": "^6.3.1",
     "scryfall-client": "^0.21.0",

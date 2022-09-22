@@ -47,7 +47,9 @@ const replaceSymbols = (text) => {
       let key = symbol.slice(1, -1);
       text = text.replace(
         symbol,
-        `<img class="symbol" alt="{${key}}" src="${scryfall.getSymbolUrl(key)}"/>`
+        `<img class="symbol" alt="{${key}}" src="${scryfall.getSymbolUrl(
+          key
+        )}"/>`
       );
     });
   }
@@ -96,5 +98,9 @@ const replaceSymbols = (text) => {
   row-gap: calc(var(--block-spacing-horizontal) / 2);
   column-gap: calc(var(--block-spacing-vertical) / 2);
   margin-bottom: var(--typography-spacing-vertical);
+}
+dialog {
+  padding-right: var(--scrollbar-width, 0);
+  overflow: hidden;
 }
 </style>

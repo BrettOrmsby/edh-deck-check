@@ -5,51 +5,74 @@ export default {
 </script>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import CardImage from "./CardImage.vue";
-import {store} from "../compostables/store.js"
+import { store } from "../compostables/store.js";
+import { computePosition, flip, shift } from "@floating-ui/dom";
 defineProps(["name"]);
 
-const a = ref();
 const revealed = ref(false);
+const tooltip = ref();
+const link = ref();
 
-const toggleOn = () => {
+const update = () => {
+  computePosition(link.value, tooltip.value, {
+    placement: "right",
+    middleware: [flip(), shift()],
+  }).then(({ x, y }) => {
+    Object.assign(tooltip.value.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
+  });
+};
+
+function showTooltip() {
+  tooltip.value.style.display = "block";
   revealed.value = true;
-};
-const toggleOff = () => {
+  update();
+}
+
+function hideTooltip() {
+  tooltip.value.style.display = "none";
   revealed.value = false;
-};
+}
 
 onMounted(() => {
-  a.value.addEventListener("mouseenter", toggleOn);
-  a.value.addEventListener("mouseleave", toggleOff);
-});
-
-onUnmounted(() => {
-  a.value?.removeEventListener("mouseenter", toggleOn);
-  a.value?.removeEventListener("mouseleave", toggleOff);
+  [
+    ["mouseenter", showTooltip],
+    ["mouseleave", hideTooltip],
+    ["focus", showTooltip],
+    ["blur", hideTooltip],
+  ].forEach(([event, listener]) => {
+    tooltip.value.addEventListener(event, listener);
+    link.value.addEventListener(event, listener);
+  });
 });
 </script>
 
 <template>
-  <a ref="a" :class="{notInDeck:store.cardsNotInDeck.includes(name)}">{{ name }}</a>
-  <div class="relative">
-    <div class="absolute">
-      <CardImage v-if="revealed" :name="name" />
-    </div>
+  <a ref="link" :class="{ notInDeck: store.cardsNotInDeck.includes(name) }">{{
+    name
+  }}</a>
+  <div ref="tooltip" id="tooltip">
+    <CardImage v-if="revealed" :name="name" />
   </div>
 </template>
 
 <style scoped>
-.relative {
-  z-index: 9;
-  position: relative;
-}
-.absolute {
+#tooltip {
   position: absolute;
-  bottom: 2em;
+  top: 0;
+  left: 0;
+  display: none;
+  padding-left: 0.5em;
 }
 .notInDeck {
-  color: var(--form-element-invalid-active-border-color)
+  color: var(--form-element-invalid-active-border-color);
+}
+a {
+  display: block;
+  width: fit-content;
 }
 </style>
