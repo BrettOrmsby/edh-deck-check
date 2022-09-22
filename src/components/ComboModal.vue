@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import CardImage from "./CardImage.vue";
-import { modal } from "../compostables/store.js";
+import { store } from "../compostables/store.js";
 import { ref, computed } from "vue";
 import * as scryfall from "scryfall-client";
 
@@ -15,7 +15,7 @@ const close = () => {
   if (clickedOff.value === false) {
     clickedOff.value = true;
   } else {
-    modal.showModal = false;
+    store.showModal = false;
   }
 };
 const clickOn = () => {
@@ -24,8 +24,8 @@ const clickOn = () => {
 
 const header = computed(() => {
   return (
-    [...modal.modalCombo.cards].splice(0, 2).join(" | ") +
-    (modal.modalCombo.cards.length >= 3 ? "..." : "")
+    [...store.modalCombo.cards].splice(0, 2).join(" | ") +
+    (store.modalCombo.cards.length >= 3 ? "..." : "")
   );
 });
 
@@ -47,7 +47,7 @@ const replaceSymbols = (text) => {
       let key = symbol.slice(1, -1);
       text = text.replace(
         symbol,
-        '<img class="symbol" src="' + scryfall.getSymbolUrl(key) + '"/>'
+        `<img class="symbol" alt="{${key}}" src="${scryfall.getSymbolUrl(key)}"/>`
       );
     });
   }
@@ -56,7 +56,7 @@ const replaceSymbols = (text) => {
 </script>
 
 <template>
-  <dialog @click="close()" :open="modal.showModal">
+  <dialog @click="close()" :open="store.showModal">
     <article @click="clickOn()">
       <header>
         <a @click="close()" aria-label="Close" class="close"></a>
@@ -65,21 +65,21 @@ const replaceSymbols = (text) => {
       <h4>Cards</h4>
       <div class="cardsContainer">
         <CardImage
-          v-for="(card, index) of modal.modalCombo.cards"
+          v-for="(card, index) of store.modalCombo.cards"
           :key="index"
           :name="card"
         />
       </div>
       <h4>Prerequisites</h4>
-      <ul v-html="formatHTML(modal.modalCombo.before)"></ul>
+      <ul v-html="formatHTML(store.modalCombo.before)"></ul>
       <h4>Steps</h4>
-      <ol v-html="formatHTML(modal.modalCombo.howTo)"></ol>
+      <ol v-html="formatHTML(store.modalCombo.howTo)"></ol>
       <h4>Result</h4>
-      <ul v-html="formatHTML(modal.modalCombo.result)"></ul>
+      <ul v-html="formatHTML(store.modalCombo.result)"></ul>
       <footer>
         <a
           target="_blank"
-          :href="`https://www.commanderspellbook.com/combo/${modal.modalCombo.id}/`"
+          :href="`https://www.commanderspellbook.com/combo/${store.modalCombo.id}/`"
           role="button"
           >Commander Spell Book</a
         >

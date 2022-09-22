@@ -1,7 +1,8 @@
 import { reactive } from "vue";
 
-export const modal = reactive({
-  showModule: false,
+export const store = reactive({
+  cardsNotInDeck:[],
+  howModule: false,
   modalCombo: {
     id: 0,
     cards: [],
@@ -10,4 +11,4 @@ export const modal = reactive({
     howTo: "",
     result: "",
   },
-});
+})

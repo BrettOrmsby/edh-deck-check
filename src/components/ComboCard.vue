@@ -6,12 +6,12 @@ export default {
 
 <script setup>
 import CardLink from "./CardLink.vue";
-import { modal } from "../compostables/store.js";
+import { store } from "../compostables/store.js";
 const props = defineProps(["combo"]);
 
 const openModal = () => {
-  modal.modalCombo = props.combo;
-  modal.showModal = true;
+  store.modalCombo = props.combo;
+  store.showModal = true;
 };
 </script>
 

@@ -9,7 +9,7 @@ import { ref, computed, watchEffect } from "vue";
 import { getCard, error } from "../compostables/useCards";
 const props = defineProps(["name"]);
 
-const image = computed(() => getCard(props.name).image);
+const card = computed(() => getCard(props.name));
 const loading = ref(true);
 const imageElement = ref();
 
@@ -20,7 +20,7 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-  if (image.value !== "" && imageElement.value) {
+  if (card.value.image !== "" && imageElement.value) {
     imageElement.value.onload = () => {
       loading.value = false;
     };
@@ -29,11 +29,13 @@ watchEffect(() => {
 </script>
 
 <template>
+  <a :href="card.url" target="_blank">
   <div class="loader" v-show="loading && !error">
     <span :aria-busy="loading"></span>
   </div>
   <div class="loader" v-show="error"><span>An error ocurred</span></div>
-  <img v-show="!loading && !error" :src="image" ref="imageElement" />
+  <img v-show="!loading && !error" :src="card.image" ref="imageElement" :alt="name"/>
+</a>
 </template>
 
 <style scoped>

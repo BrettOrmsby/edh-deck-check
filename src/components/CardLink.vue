@@ -7,6 +7,7 @@ export default {
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import CardImage from "./CardImage.vue";
+import {store} from "../compostables/store.js"
 defineProps(["name"]);
 
 const a = ref();
@@ -31,7 +32,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <a ref="a">{{ name }}</a>
+  <a ref="a" :class="{notInDeck:store.cardsNotInDeck.includes(name)}">{{ name }}</a>
   <div class="relative">
     <div class="absolute">
       <CardImage v-if="revealed" :name="name" />
@@ -47,5 +48,8 @@ onUnmounted(() => {
 .absolute {
   position: absolute;
   bottom: 2em;
+}
+.notInDeck {
+  color: var(--form-element-invalid-active-border-color)
 }
 </style>

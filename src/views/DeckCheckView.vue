@@ -3,6 +3,7 @@ import { RouterLink } from "vue-router";
 import { ref, watchEffect, onMounted } from "vue";
 import ComboList from "../components/ComboList.vue";
 import ComboModule from "../components/ComboModal.vue";
+import {store} from "../compostables/store.js"
 
 const isLoading = ref(true);
 const isError = ref(false);
@@ -11,7 +12,6 @@ const deckText = ref("Heliod, Sun-Crowned\nWalking Ballista");
 const deckIdentity = ref([]);
 const almostCombosInDeck = ref([]);
 const combosInDeck = ref([]);
-const cardsNotInDeck = ref([]);
 
 onMounted(async () => {
   const response = await fetch(
@@ -79,8 +79,8 @@ const findCombos = (deck, identity) => {
         }
       }
     }
-    cardsNotInDeck.value = [
-      ...new Set([...cardsNotInDeck.value, ...tempCardsNotInDeck]),
+    store.cardsNotInDeck = [
+      ...new Set([...store.cardsNotInDeck, ...tempCardsNotInDeck]),
     ];
     if (numberCardsNotInDeck === 1) {
       almostCombosInDeck.value.push(combo);
@@ -93,7 +93,7 @@ const findCombos = (deck, identity) => {
 watchEffect(() => {
   almostCombosInDeck.value = [];
   combosInDeck.value = [];
-  cardsNotInDeck.value = [];
+  store.cardsNotInDeck = [];
   const deckList = deckToCards(deckText.value);
   findCombos(deckList, deckIdentity.value, combos.value);
 });
