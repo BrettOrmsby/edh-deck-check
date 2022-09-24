@@ -23,13 +23,9 @@ const openModal = () => {
       padding-right: var(--block-spacing-horizontal);
     "
   >
-    <article style="white-space: pre-line" @click.self="openModal()">
+    <article style="white-space: pre-line" @click="openModal()">
       <header class="flex">
-        <div
-          v-for="(card, index) in combo.cards"
-          :key="index"
-          @click.self="openModal()"
-        >
+        <div v-for="(card, index) in combo.cards" :key="index">
           <CardLink :name="card" />
         </div>
       </header>

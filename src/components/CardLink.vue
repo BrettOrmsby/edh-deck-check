@@ -52,10 +52,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <a ref="link" :class="{ notInDeck: store.cardsNotInDeck.includes(name) }">{{
-    name
-  }}</a>
-  <div ref="tooltip" id="tooltip">
+  <a
+    ref="link"
+    :class="{ notInDeck: store.cardsNotInDeck.includes(name) }"
+    @click.stop=""
+    >{{ name }}</a
+  >
+  <div ref="tooltip" id="tooltip" @click.stop="">
     <CardImage v-if="revealed" :name="name" />
   </div>
 </template>
