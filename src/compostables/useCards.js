@@ -33,10 +33,15 @@ const loadCards = async () => {
       images = card.card_faces[0].image_uris;
     }
     cardsArr.push({
-      name: card.name,
+      name: card.name.toLowerCase()
+      // Commander spellbook only used the first part of a card
+      .split(" // ")[0]
+      // inconsistent punctuation
+      .replace(/[^\w\s]/g, ""),
       image: images.png,
       url: card.scryfall_uri,
       price: card.prices.usd,
+      colourId: card.color_identity
     });
   }
   cards.value = cardsArr;
@@ -48,15 +53,19 @@ loadCards();
 const getCard = (cardName) => {
   if (!loading.value && !error.value) {
     return cards.value.find((e) => {
-      return (
+      /*return (
         e.name == cardName ||
         (e.name.includes("//") &&
           (e.name.startsWith(cardName + " //") ||
-            e.name.endsWith("// " + cardName)))
+            e.name.endsWith("// " + cardName)))  
       );
-    });
-  }
-  return {};
+    });*/
+    return e.name === cardName.toLowerCase()
+    // Commander spellbook only used the first part of a card
+    .split(" // ")[0]
+    // inconsistent punctuation
+    .replace(/[^\w\s]/g, "")
+  })}
 };
 
 export { loading, error, cards, getCard };

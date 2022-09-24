@@ -4,9 +4,10 @@ import { ref, watchEffect, onMounted } from "vue";
 import ComboList from "../components/ComboList.vue";
 import ComboModule from "../components/ComboModal.vue";
 import { store } from "../compostables/store.js";
+import {getCard, loading, error} from "../compostables/useCards"
 
-const isLoading = ref(true);
-const isError = ref(false);
+const loadingCombo = ref(true);
+const errorCombo = ref(false);
 const combos = ref([]);
 const deckText = ref("Heliod, Sun-Crowned\nWalking Ballista");
 const deckIdentity = ref([]);
@@ -19,8 +20,8 @@ onMounted(async () => {
   );
   if (!response.ok) {
     console.log(`An error has occurred: ${response.status}`);
-    isLoading.value = false;
-    isError.value = true;
+    loadingCombo.value = false;
+    errorCombo.value = true;
     return;
   }
   const data = await response.json();
@@ -36,7 +37,7 @@ onMounted(async () => {
       };
     })
     .filter((e) => e.cards.length > 0);
-  isLoading.value = false;
+  loadingCombo.value = false;
 });
 
 const deckToCards = (deck) => {
@@ -61,7 +62,20 @@ const deckToCards = (deck) => {
   return finalCards;
 };
 
-const findCombos = (deck, identity) => {
+const findCombos = async (deck) => {
+  let identity = []
+  for(let cardName of deck) {
+    const card = getCard(cardName)
+    if(!card) {
+      console.warn("Card not found: " + cardName) 
+      continue
+    }
+    const cardIdentity = card.colourId
+    identity = [
+      ...new Set([...identity, ...cardIdentity]),
+    ]
+  }
+  identity = identity.map(e=> e.toLowerCase())
   main: for (let combo of combos.value) {
     for (let colour of combo.identity) {
       if (colour !== "c" && !identity.includes(colour)) {
@@ -91,11 +105,13 @@ const findCombos = (deck, identity) => {
 };
 
 watchEffect(() => {
-  almostCombosInDeck.value = [];
-  combosInDeck.value = [];
-  store.cardsNotInDeck = [];
-  const deckList = deckToCards(deckText.value);
-  findCombos(deckList, deckIdentity.value, combos.value);
+  if(!loadingCombo.value && !loading.value && !errorCombo.value && !error.value) {
+    const deckList = deckToCards(deckText.value);
+    almostCombosInDeck.value = [];
+    combosInDeck.value = [];
+    store.cardsNotInDeck = [];
+    findCombos(deckList);
+  }
 });
 </script>
 <template>
@@ -105,72 +121,22 @@ watchEffect(() => {
       <h1>Combo Checker</h1>
       <p>Check your EDH deck for its combos and close combos missing 1 card!</p>
     </hgroup>
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <h2>Paste In You Deck</h2>
-        <textarea v-model="deckText" rows="8" style="resize: none"></textarea>
+        <textarea v-model="deckText" rows="8" style="resize: none" placeholder="Enter your deck"></textarea>
         <small class="center"
           >View <RouterLink to="format">format</RouterLink> rules</small
         >
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <h2>Deck Colour Identity</h2>
-        <fieldset>
-          <label for="whiteIdentity"
-            ><input
-              type="checkbox"
-              name="whiteIdentity"
-              value="w"
-              v-model="deckIdentity"
-            />W</label
-          >
-          <label for="blueIdentity"
-            ><input
-              type="checkbox"
-              name="blueIdentity"
-              value="u"
-              v-model="deckIdentity"
-            />U</label
-          >
-          <label for="blackIdentity"
-            ><input
-              type="checkbox"
-              name="blackIdentity"
-              value="b"
-              v-model="deckIdentity"
-            />B</label
-          >
-          <label for="redIdentity"
-            ><input
-              type="checkbox"
-              name="redIdentity"
-              value="r"
-              v-model="deckIdentity"
-            />R</label
-          >
-          <label for="greenIdentity"
-            ><input
-              type="checkbox"
-              name="greenIdentity"
-              value="g"
-              v-model="deckIdentity"
-            />G</label
-          >
-        </fieldset>
-      </div>
-    </div>
 
     <h3>Combos In Deck</h3>
     <ComboList
       :combos="combosInDeck"
-      :is-loading="isLoading"
-      :is-error="isError"
+      :is-loading="loadingCombo || loading"
+      :is-error="errorCombo || error"
     />
     <h3>Close Combos In Deck</h3>
     <ComboList
       :combos="almostCombosInDeck"
-      :is-loading="isLoading"
-      :is-error="isError"
+      :is-loading="loadingCombo || loading"
+      :is-error="errorCombo || error"
     />
   </main>
 </template>
