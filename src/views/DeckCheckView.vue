@@ -4,7 +4,7 @@ import { ref, watchEffect, onMounted } from "vue";
 import ComboList from "../components/ComboList.vue";
 import ComboModule from "../components/ComboModal.vue";
 import { store } from "../compostables/store.js";
-import {getCard, loading, error} from "../compostables/useCards"
+import { getCard, loading, error } from "../compostables/useCards";
 
 const loadingCombo = ref(true);
 const errorCombo = ref(false);
@@ -63,19 +63,17 @@ const deckToCards = (deck) => {
 };
 
 const findCombos = async (deck) => {
-  let identity = []
-  for(let cardName of deck) {
-    const card = getCard(cardName)
-    if(!card) {
-      console.warn("Card not found: " + cardName) 
-      continue
+  let identity = [];
+  for (let cardName of deck) {
+    const card = getCard(cardName);
+    if (!card) {
+      console.warn("Card not found: " + cardName);
+      continue;
     }
-    const cardIdentity = card.colourId
-    identity = [
-      ...new Set([...identity, ...cardIdentity]),
-    ]
+    const cardIdentity = card.colourId;
+    identity = [...new Set([...identity, ...cardIdentity])];
   }
-  identity = identity.map(e=> e.toLowerCase())
+  identity = identity.map((e) => e.toLowerCase());
   main: for (let combo of combos.value) {
     for (let colour of combo.identity) {
       if (colour !== "c" && !identity.includes(colour)) {
@@ -105,7 +103,12 @@ const findCombos = async (deck) => {
 };
 
 watchEffect(() => {
-  if(!loadingCombo.value && !loading.value && !errorCombo.value && !error.value) {
+  if (
+    !loadingCombo.value &&
+    !loading.value &&
+    !errorCombo.value &&
+    !error.value
+  ) {
     const deckList = deckToCards(deckText.value);
     almostCombosInDeck.value = [];
     combosInDeck.value = [];
@@ -121,10 +124,15 @@ watchEffect(() => {
       <h1>Combo Checker</h1>
       <p>Check your EDH deck for its combos and close combos missing 1 card!</p>
     </hgroup>
-        <textarea v-model="deckText" rows="8" style="resize: none" placeholder="Enter your deck"></textarea>
-        <small class="center"
-          >View <RouterLink to="format">format</RouterLink> rules</small
-        >
+    <textarea
+      v-model="deckText"
+      rows="8"
+      style="resize: none"
+      placeholder="Enter your deck"
+    ></textarea>
+    <small class="center"
+      >View <RouterLink to="format">format</RouterLink> rules</small
+    >
 
     <h3>Combos In Deck</h3>
     <ComboList
