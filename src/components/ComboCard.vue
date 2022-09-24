@@ -23,13 +23,15 @@ const openModal = () => {
       padding-right: var(--block-spacing-horizontal);
     "
   >
-    <article style="white-space: pre-line" @click="openModal()">
-      <header>
-        <CardLink
+    <article style="white-space: pre-line" @click.self="openModal()">
+      <header class="flex">
+        <div
           v-for="(card, index) in combo.cards"
           :key="index"
-          :name="card"
-        />
+          @click.self="openModal()"
+        >
+          <CardLink :name="card" />
+        </div>
       </header>
       {{ combo.result.split(".").join(".\n").trim() }}
     </article>
@@ -39,5 +41,9 @@ const openModal = () => {
 <style scoped>
 article {
   cursor: pointer;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
 }
 </style>

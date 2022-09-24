@@ -71,8 +71,4 @@ onMounted(() => {
 .notInDeck {
   color: var(--form-element-invalid-active-border-color);
 }
-a {
-  display: block;
-  width: fit-content;
-}
 </style>

@@ -7,32 +7,24 @@ export default {
 <script setup>
 import CardImage from "./CardImage.vue";
 import { store } from "../compostables/store.js";
-import { ref, computed, watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
 import * as scryfall from "scryfall-client";
 
 watchEffect(() => {
-  const html = document.getElementsByTagName("html")[0]
-  if(store.showModal) {
-    html.classList.remove("modal-is-closing")
-    html.classList.add("modal-is-opening")
-    html.classList.add("modal-is-open")
+  const html = document.getElementsByTagName("html")[0];
+  if (store.showModal) {
+    html.classList.remove("modal-is-closing");
+    html.classList.add("modal-is-opening");
+    html.classList.add("modal-is-open");
   } else {
-    html.classList.remove("modal-is-opening")
-    html.classList.add("modal-is-closing")
-    html.classList.remove("modal-is-open")
+    html.classList.remove("modal-is-opening");
+    html.classList.add("modal-is-closing");
+    html.classList.remove("modal-is-open");
   }
-})
+});
 
-const clickedOff = ref(true);
 const close = () => {
-  if (clickedOff.value === false) {
-    clickedOff.value = true;
-  } else {
-    store.showModal = false;
-  }
-};
-const clickOn = () => {
-  clickedOff.value = false;
+  store.showModal = false;
 };
 
 const header = computed(() => {
@@ -71,8 +63,8 @@ const replaceSymbols = (text) => {
 </script>
 
 <template>
-  <dialog @click="close()" :open="store.showModal">
-    <article @click="clickOn()">
+  <dialog @click.self="close()" :open="store.showModal">
+    <article>
       <header>
         <a @click="close()" aria-label="Close" class="close"></a>
         {{ header }}
