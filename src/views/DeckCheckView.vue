@@ -9,9 +9,12 @@ import { getCard, loading, error } from "../compostables/useCards";
 const loadingCombo = ref(true);
 const errorCombo = ref(false);
 const combos = ref([]);
-const deckText = ref("Heliod, Sun-Crowned\nWalking Ballista");
+const deckText = ref("");
 const almostCombosInDeck = ref([]);
 const combosInDeck = ref([]);
+
+// Need to click the button before showing the combos to reduce glitching if it went onchange
+const clickSinceLastEdit = ref(false);
 
 onMounted(async () => {
   const response = await fetch(
@@ -49,7 +52,7 @@ const deckToCards = (deck) => {
     .filter((e) => e.trim() !== "")
     // remove `\d?x` before card name for TappedOut and `(.+?)` for set names and `*.+?*` for commanders/foils for TappedOut
     .map((e) => {
-      e = e.match(/^\s*(?:\d+(?:x|X)?\s*?)?([\s\S]*?)([(*][\s\S]*?)?$/g)[0];
+      e = e.match(/^\s*(?:\d+(?:x|X)?)?\s*([\s\S]*?)([(*][\s\S]*?)?$/)[1];
       return e.trim();
     });
   return cards;
@@ -97,6 +100,7 @@ const findCombos = async (deck) => {
 
 watchEffect(() => {
   if (
+    clickSinceLastEdit.value &&
     !loadingCombo.value &&
     !loading.value &&
     !errorCombo.value &&
@@ -121,12 +125,13 @@ watchEffect(() => {
       v-model="deckText"
       rows="8"
       style="resize: none"
-      placeholder="Enter your deck"
+      :placeholder="'Enter your deck.\n\n1 Heliod, Sun-Crowned\n1x Walking Ballista'"
+      @input="() => (clickSinceLastEdit = false)"
     ></textarea>
     <small class="center"
       >View <RouterLink to="format">format</RouterLink> rules</small
     >
-
+    <button @click="() => (clickSinceLastEdit = true)">Find Combos</button>
     <h3>Combos In Deck</h3>
     <ComboList
       :combos="combosInDeck"

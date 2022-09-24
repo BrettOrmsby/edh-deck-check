@@ -45,21 +45,14 @@ const formatHTML = (text) => {
     .join("");
 };
 
-const replaceSymbols = (text) => {
-  let matches = text.match(/{(.)(\/(.))?}/g);
-  if (matches) {
-    matches.forEach((symbol) => {
-      let key = symbol.slice(1, -1);
-      text = text.replace(
-        symbol,
-        `<img class="symbol" alt="{${key}}" src="${scryfall.getSymbolUrl(
-          key
-        )}"/>`
-      );
-    });
-  }
-  return text;
-};
+const replaceSymbols = (text) =>
+  text.replace(
+    /{(.+?)}/g,
+    (_, match) =>
+      `<img class="symbol" alt="{${match}}" src="${scryfall.getSymbolUrl(
+        match
+      )}"/>`
+  );
 </script>
 
 <template>
