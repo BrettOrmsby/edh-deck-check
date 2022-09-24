@@ -10,7 +10,6 @@ const loadingCombo = ref(true);
 const errorCombo = ref(false);
 const combos = ref([]);
 const deckText = ref("Heliod, Sun-Crowned\nWalking Ballista");
-const deckIdentity = ref([]);
 const almostCombosInDeck = ref([]);
 const combosInDeck = ref([]);
 
@@ -41,25 +40,19 @@ onMounted(async () => {
 });
 
 const deckToCards = (deck) => {
+  // support for pasting from MoxField
   const onlyInDeck = deck.split("SIDEBOARD:")[0];
+
   const cards = onlyInDeck
     .split(/\n/g)
+    // remove empty spaces
     .filter((e) => e.trim() !== "")
+    // remove `\d?x` before card name for TappedOut and `(.+?)` for set names and `*.+?*` for commanders/foils for TappedOut
     .map((e) => {
-      e = e.replace(
-        /^\s*(?:\d+(?:x|X)?\s*?)?([\s\S]*?)([(*][\s\S]*?)?$/gm,
-        "$1"
-      );
+      e = e.match(/^\s*(?:\d+(?:x|X)?\s*?)?([\s\S]*?)([(*][\s\S]*?)?$/g)[0];
       return e.trim();
     });
-  let finalCards = [];
-  for (let card of cards) {
-    if (card.includes("//")) {
-      finalCards = [...finalCards, ...card.split("//").map((e) => e.trim())];
-    }
-    finalCards.push(card);
-  }
-  return finalCards;
+  return cards;
 };
 
 const findCombos = async (deck) => {
