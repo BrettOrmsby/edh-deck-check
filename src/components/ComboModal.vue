@@ -7,8 +7,21 @@ export default {
 <script setup>
 import CardImage from "./CardImage.vue";
 import { store } from "../compostables/store.js";
-import { ref, computed } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import * as scryfall from "scryfall-client";
+
+watchEffect(() => {
+  const html = document.getElementsByTagName("html")[0]
+  if(store.showModal) {
+    html.classList.remove("modal-is-closing")
+    html.classList.add("modal-is-opening")
+    html.classList.add("modal-is-open")
+  } else {
+    html.classList.remove("modal-is-opening")
+    html.classList.add("modal-is-closing")
+    html.classList.remove("modal-is-open")
+  }
+})
 
 const clickedOff = ref(true);
 const close = () => {
@@ -36,7 +49,7 @@ const formatHTML = (text) => {
   return text
     .trim()
     .split(/\.(?!$)/g)
-    .map((e) => "<li>" + replaceSymbols(e.replace(".", "")) + ".</li>")
+    .map((e) => "<li>" + replaceSymbols(e.replace(".", "")) + "</li>")
     .join("");
 };
 
@@ -98,9 +111,5 @@ const replaceSymbols = (text) => {
   row-gap: calc(var(--block-spacing-horizontal) / 2);
   column-gap: calc(var(--block-spacing-vertical) / 2);
   margin-bottom: var(--typography-spacing-vertical);
-}
-dialog {
-  padding-right: var(--scrollbar-width, 0);
-  overflow: hidden;
 }
 </style>
