@@ -7,7 +7,7 @@ export default {
 <script setup>
 import { ref, onMounted } from "vue";
 import CardImage from "./CardImage.vue";
-import { store } from "../compostables/store.js";
+import { store } from "../../composables/store.js";
 import { computePosition, flip, shift } from "@floating-ui/dom";
 defineProps(["name"]);
 

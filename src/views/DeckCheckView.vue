@@ -1,10 +1,9 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import ComboList from "../components/combo/ComboList.vue";
+import ComboModule from "../components/combo/ComboModal.vue";
 import { ref, watchEffect, onMounted } from "vue";
-import ComboList from "../components/ComboList.vue";
-import ComboModule from "../components/ComboModal.vue";
-import { store } from "../compostables/store.js";
-import { getCard, loading, error } from "../compostables/useCards";
+import { store } from "../composables/store.js";
+import { getCard, loading, error } from "../composables/useCards";
 
 const loadingCombo = ref(true);
 const errorCombo = ref(false);
@@ -128,9 +127,6 @@ watchEffect(() => {
       :placeholder="'Enter your deck.\n\n1 Heliod, Sun-Crowned\n1x Walking Ballista'"
       @input="() => (clickSinceLastEdit = false)"
     ></textarea>
-    <small class="center"
-      >View <RouterLink to="format">format</RouterLink> rules</small
-    >
     <button @click="() => (clickSinceLastEdit = true)">Find Combos</button>
     <h3>Combos In Deck</h3>
     <ComboList

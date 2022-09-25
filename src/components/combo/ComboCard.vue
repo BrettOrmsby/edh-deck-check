@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import CardLink from "./CardLink.vue";
-import { store } from "../compostables/store.js";
+import { store } from "../../composables/store.js";
 const props = defineProps(["combo"]);
 
 const openModal = () => {

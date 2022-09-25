@@ -5,7 +5,7 @@ export default { name: "NavBar" };
 <script setup>
 import VueFeather from "vue-feather";
 import { RouterLink } from "vue-router";
-import { isXs } from "../compostables/useBreakPoints";
+import { isXs } from "../composables/useBreakPoints";
 </script>
 <template>
   <nav class="container-fluid">

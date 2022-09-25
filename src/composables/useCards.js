@@ -25,7 +25,11 @@ const loadCards = async () => {
   const bulkCards = await bulkCardsResponse.json();
   const cardsArr = [];
   for (let card of bulkCards) {
-    if (card.set_type === "token" || card.set_type === "memorabilia") {
+    if (
+      card.set_type === "token" ||
+      card.set_type === "memorabilia" ||
+      card.legalities.commander !== "legal"
+    ) {
       continue;
     }
     let images = card.image_uris;

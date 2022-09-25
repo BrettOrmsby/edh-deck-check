@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import CardImage from "./CardImage.vue";
-import { store } from "../compostables/store.js";
+import { store } from "../../composables/store.js";
 import { computed, watchEffect } from "vue";
 import * as scryfall from "scryfall-client";
 
