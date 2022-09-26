@@ -17,7 +17,6 @@ const openModal = () => {
 
 <template>
   <div
-    class="col-xs-12 col-sm-6 col-md-6 col-lg-4"
     style="
       padding-left: var(--block-spacing-horizontal);
       padding-right: var(--block-spacing-horizontal);
@@ -37,6 +36,7 @@ const openModal = () => {
 <style scoped>
 article {
   cursor: pointer;
+  width: 300px;
 }
 .flex {
   display: flex;
