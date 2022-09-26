@@ -8,9 +8,6 @@ export default {
   <footer class="container-fluid">
     <nav class="space-around">
       <ul>
-        <li><RouterLink to="/" class="secondary">Deck Check</RouterLink></li>
-        <li><RouterLink to="about" class="secondary">About</RouterLink></li>
-        <li><RouterLink to="format" class="secondary">Format</RouterLink></li>
         <li>
           <a href="https://github.com/BrettOrmsby/deck-combo" class="secondary"
             >Github</a

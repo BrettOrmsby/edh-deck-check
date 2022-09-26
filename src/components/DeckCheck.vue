@@ -1,6 +1,6 @@
 <script setup>
-import ComboList from "../components/combo/ComboList.vue";
-import ComboModule from "../components/combo/ComboModal.vue";
+import ComboList from "./combo/ComboList.vue";
+import ComboModule from "./combo/ComboModal.vue";
 import { ref, watchEffect, onMounted } from "vue";
 import { store } from "../composables/store.js";
 import { getCard, loading, error } from "../composables/useCards";
@@ -11,6 +11,7 @@ const combos = ref([]);
 const deckText = ref("");
 const almostCombosInDeck = ref([]);
 const combosInDeck = ref([]);
+const unfoundCards = ref([])
 
 // Need to click the button before showing the combos to reduce glitching if it went onchange
 const clickSinceLastEdit = ref(false);
@@ -62,7 +63,7 @@ const findCombos = async (deck) => {
   for (let cardName of deck) {
     const card = getCard(cardName);
     if (!card) {
-      console.warn("Card not found: " + cardName);
+      unfoundCards.value.push(cardName)
       continue;
     }
     const cardIdentity = card.colourId;
@@ -97,6 +98,11 @@ const findCombos = async (deck) => {
   }
 };
 
+const updateTextarea = (textarea) => {
+  clickSinceLastEdit.value = false
+  deckText.value = textarea.value
+}
+
 watchEffect(() => {
   if (
     clickSinceLastEdit.value &&
@@ -106,6 +112,7 @@ watchEffect(() => {
     !error.value
   ) {
     const deckList = deckToCards(deckText.value);
+    unfoundCards.value = []
     almostCombosInDeck.value = [];
     combosInDeck.value = [];
     store.cardsNotInDeck = [];
@@ -121,12 +128,18 @@ watchEffect(() => {
       <p>Check your EDH deck for its combos and close combos missing 1 card!</p>
     </hgroup>
     <textarea
-      v-model="deckText"
+      :value="deckText"
       rows="8"
       style="resize: none"
-      :placeholder="'Enter your deck.\n\n1 Heliod, Sun-Crowned\n1x Walking Ballista'"
-      @input="() => (clickSinceLastEdit = false)"
+      :placeholder="'Enter your deck:\n\n1 Heliod, Sun-Crowned\n1x Walking Ballista (2XM)'"
+      @input="updateTextarea($event.target)"
     ></textarea>
+    <p v-if="unfoundCards.length > 0">
+      Invalid commander legal cards:
+      <ul>
+        <li v-for="(card,index) of unfoundCards" :key="index">{{card}}</li>
+      </ul>
+    </p>
     <button @click="() => (clickSinceLastEdit = true)">Find Combos</button>
     <h3>Combos In Deck</h3>
     <ComboList
