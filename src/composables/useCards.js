@@ -5,24 +5,30 @@ const error = ref(false);
 const cards = ref([]);
 
 const loadCards = async () => {
-  const bulkResponse = await fetch("https://api.scryfall.com/bulk-data");
-  if (!bulkResponse.ok) {
-    console.log(`An error has occurred: ${bulkResponse.status}`);
+  let bulkData;
+  try {
+    const bulkResponse = await fetch("https://api.scryfall.com/bulk-data");
+    bulkData = await bulkResponse.json();
+  } catch (e) {
+    console.log(e);
     loading.value = false;
     error.value = true;
+    return;
   }
-  const bulkData = await bulkResponse.json();
 
-  const bulkCardsResponse = await fetch(
-    bulkData.data.find((e) => (e.name = "Oracle Cards")).download_uri
-  );
-  if (!bulkCardsResponse.ok) {
-    console.log(`An error has occurred: ${bulkCardsResponse.status}`);
+  let bulkCards;
+  try {
+    const bulkCardsResponse = await fetch(
+      bulkData.data.find((e) => (e.name = "Oracle Cards")).download_uri
+    );
+    bulkCards = await bulkCardsResponse.json();
+  } catch (e) {
+    console.log(e);
     loading.value = false;
     error.value = true;
+    return;
   }
 
-  const bulkCards = await bulkCardsResponse.json();
   const cardsArr = [];
   for (let card of bulkCards) {
     if (
@@ -58,13 +64,6 @@ loadCards();
 const getCard = (cardName) => {
   if (!loading.value && !error.value) {
     return cards.value.find((e) => {
-      /*return (
-        e.name == cardName ||
-        (e.name.includes("//") &&
-          (e.name.startsWith(cardName + " //") ||
-            e.name.endsWith("// " + cardName)))  
-      );
-    });*/
       return (
         e.name ===
         cardName
