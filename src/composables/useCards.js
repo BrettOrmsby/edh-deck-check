@@ -67,6 +67,7 @@ const getCard = (cardName) => {
       return (
         e.name ===
         cardName
+          .trim()
           .toLowerCase()
           // Commander spellbook only used the first part of a card
           .split(" // ")[0]
