@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import ComboCard from "./ComboCard.vue";
-defineProps(["isError", "isLoading", "combos","deckText"]);
+defineProps(["isError", "isLoading", "combos", "deckText"]);
 </script>
 <template>
   <h4 v-if="isLoading" aria-busy="true">Loading...</h4>

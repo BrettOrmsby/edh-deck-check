@@ -6,9 +6,9 @@ export default {
 
 <script setup>
 import CardImage from "./CardImage.vue";
+import SymbolText from "./symbolText.vue";
 import { store } from "../../composables/store.js";
 import { computed, watchEffect } from "vue";
-import { replaceSymbol } from "../../composables/useSymbol";
 
 watchEffect(() => {
   const html = document.getElementsByTagName("html")[0];
@@ -34,15 +34,14 @@ const header = computed(() => {
   );
 });
 
-const formatHTML = (text) => {
+const formatParagraphToList = (text) => {
   if (!text) {
     return "";
   }
   return text
     .trim()
     .split(/\.(?!$)/g)
-    .map((e) => "<li>" + replaceSymbol(e.replace(".", "")) + "</li>")
-    .join("");
+    .filter((e) => e);
 };
 </script>
 
@@ -62,11 +61,36 @@ const formatHTML = (text) => {
         />
       </div>
       <h3>Prerequisites</h3>
-      <ul v-html="formatHTML(store.modalCombo.before)"></ul>
+      <ul>
+        <li
+          v-for="(item, index) in formatParagraphToList(
+            store.modalCombo.before
+          )"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ul>
       <h3>Steps</h3>
-      <ol v-html="formatHTML(store.modalCombo.howTo)"></ol>
+      <ol>
+        <li
+          v-for="(item, index) in formatParagraphToList(store.modalCombo.howTo)"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ol>
       <h3>Result</h3>
-      <ul v-html="formatHTML(store.modalCombo.result)"></ul>
+      <ul>
+        <li
+          v-for="(item, index) in formatParagraphToList(
+            store.modalCombo.result
+          )"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ul>
       <footer>
         <a
           target="_blank"

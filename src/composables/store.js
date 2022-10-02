@@ -11,4 +11,6 @@ export const store = reactive({
     howTo: "",
     result: "",
   },
+  manaSymbols: {},
+  manaSymbolsLoad: false,
 });

@@ -2,7 +2,7 @@
 /*
  * TODO:
  * title/meta
- * footer
+ * name
  * if on mobile the card tooltips should go top
  */
 import ComboList from "./combo/ComboList.vue";
@@ -166,7 +166,7 @@ const scrollToTitle = () => {
       style="resize: none"
       :placeholder="'1 Heliod, Sun-Crowned\n1x Walking Ballista (2XM)'"
       @input="updateTextarea($event.target)"
-      @change="($event) => lazyDeckText = $event.target.value"
+      @change="($event) => (lazyDeckText = $event.target.value)"
     ></textarea>
     <div v-if="unfoundCards.length > 0">
       <p>Invalid commander legal cards:</p>
@@ -221,7 +221,7 @@ hgroup {
   flex-wrap: wrap;
   flex-direction: column;
 }
-hgroup p{
+hgroup p {
   --color: var(--muted-color);
   --font-weight: unset;
   font-size: 1rem;
