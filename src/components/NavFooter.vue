@@ -10,16 +10,16 @@ export default {
       <p>
         {NAME} uses combo data from
         <a href="https://www.commanderspellbook.com/">Commander Spellbook</a>
-        with respect to this
+        with respect to it's
         <a
           href="https://github.com/Commander-Spellbook/website-v2/blob/main/LICENSE"
-          >licence</a
+          >license</a
         >. This data can be found on their public
         <a
           href="https://docs.google.com/spreadsheets/d/1KqyDRZRCgy8YgMFnY0tHSw_3jC99Z0zFvJrPbfm66vA/edit#gid=0"
           >Google Sheet</a
         >. Card and image data is from
-        <a href="https://scryfall.com/">Scryfall</a>, who fallows the
+        <a href="https://scryfall.com/">Scryfall</a>, who follows the
         <a href="https://company.wizards.com/en/legal/fancontentpolicy"
           >Wizards of the Coast's Fan Content Policy</a
         >.
@@ -34,7 +34,7 @@ export default {
           href="https://cards.scryfall.io/art_crop/front/e/f/eff24f82-afd6-48be-ba99-2f9e8a3d0231.jpg?1562489848"
           >here</a
         >
-        and is ilistrated by
+        and is illustrated by
         <a href="https://www.kensukeart.com/">Kensuke Okabayashi</a>.
       </p>
       <p>
