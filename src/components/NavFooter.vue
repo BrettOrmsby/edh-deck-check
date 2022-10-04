@@ -8,7 +8,7 @@ export default {
   <footer class="container-fluid">
     <div>
       <p>
-        {NAME} uses combo data from
+        EDH Deck Check uses combo data from
         <a href="https://www.commanderspellbook.com/">Commander Spellbook</a>
         with respect to it's
         <a
@@ -38,14 +38,14 @@ export default {
         <a href="https://www.kensukeart.com/">Kensuke Okabayashi</a>.
       </p>
       <p>
-        {NAME} is unofficial and non-endorsed Fan Content permitted under
-        Wizard's
+        EDH Deck Check is unofficial and non-endorsed Fan Content permitted
+        under Wizard's
         <a href="https://company.wizards.com/en/legal/fancontentpolicy"
           >Fan Content Policy</a
         >. Some content used is property of Wizards of the Coast.
       </p>
       <p>
-        The source for {NAME} can be found on
+        The source for EDH Deck Check can be found on
         <a href="https://github.com/BrettOrmsby/deck-combo">Github</a>.
       </p>
       <p>All other content © Brett Ormsby {{ new Date().getFullYear() }}</p>

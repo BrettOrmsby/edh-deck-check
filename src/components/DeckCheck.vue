@@ -1,9 +1,8 @@
 <script setup>
 /*
- * TODO:
- * title/meta
- * name
- * if on mobile the card tooltips should go top
+ * COULD BE ADDED:
+ * link to edhrec on modal
+ * edhrec prices
  */
 import ComboList from "./combo/ComboList.vue";
 import ComboModal from "./combo/ComboModal.vue";
@@ -139,10 +138,9 @@ const scrollToTitle = () => {
   <ComboModal />
   <main class="container">
     <img class="header" src="../assets/images/johnny-combo-player.jpeg" />
-
     <hgroup>
-      <h1 data-theme="dark">Combo Checker</h1>
-      <p>How many combos do you have in your EDH deck?</p>
+      <h1 data-theme="dark">EDH Deck Check</h1>
+      <p>How many combos does your EDH deck have?</p>
       <svg
         @click="scrollToTitle()"
         role="link"
