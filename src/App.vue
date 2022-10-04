@@ -1,11 +1,9 @@
 <script setup>
-import { RouterView } from "vue-router";
-import NavBar from "./components/NavBar.vue";
 import NavFooter from "./components/NavFooter.vue";
+import DeckCheckView from "./components/DeckCheck.vue";
 </script>
 
 <template>
-  <NavBar />
-  <RouterView />
+  <DeckCheckView />
   <NavFooter />
 </template>

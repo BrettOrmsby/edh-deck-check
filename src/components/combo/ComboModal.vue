@@ -6,9 +6,9 @@ export default {
 
 <script setup>
 import CardImage from "./CardImage.vue";
-import { store } from "../compostables/store.js";
+import SymbolText from "./symbolText.vue";
+import { store } from "../../composables/store.js";
 import { computed, watchEffect } from "vue";
-import * as scryfall from "scryfall-client";
 
 watchEffect(() => {
   const html = document.getElementsByTagName("html")[0];
@@ -34,25 +34,15 @@ const header = computed(() => {
   );
 });
 
-const formatHTML = (text) => {
+const formatParagraphToList = (text) => {
   if (!text) {
     return "";
   }
   return text
     .trim()
     .split(/\.(?!$)/g)
-    .map((e) => "<li>" + replaceSymbols(e.replace(".", "")) + "</li>")
-    .join("");
+    .filter((e) => e);
 };
-
-const replaceSymbols = (text) =>
-  text.replace(
-    /{(.+?)}/g,
-    (_, match) =>
-      `<img class="symbol" alt="{${match}}" src="${scryfall.getSymbolUrl(
-        match
-      )}"/>`
-  );
 </script>
 
 <template>
@@ -62,7 +52,7 @@ const replaceSymbols = (text) =>
         <a @click="close()" aria-label="Close" class="close"></a>
         {{ header }}
       </header>
-      <h4>Cards</h4>
+      <h3>Cards</h3>
       <div class="cardsContainer">
         <CardImage
           v-for="(card, index) of store.modalCombo.cards"
@@ -70,12 +60,37 @@ const replaceSymbols = (text) =>
           :name="card"
         />
       </div>
-      <h4>Prerequisites</h4>
-      <ul v-html="formatHTML(store.modalCombo.before)"></ul>
-      <h4>Steps</h4>
-      <ol v-html="formatHTML(store.modalCombo.howTo)"></ol>
-      <h4>Result</h4>
-      <ul v-html="formatHTML(store.modalCombo.result)"></ul>
+      <h3>Prerequisites</h3>
+      <ul>
+        <li
+          v-for="(item, index) in formatParagraphToList(
+            store.modalCombo.before
+          )"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ul>
+      <h3>Steps</h3>
+      <ol>
+        <li
+          v-for="(item, index) in formatParagraphToList(store.modalCombo.howTo)"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ol>
+      <h3>Result</h3>
+      <ul>
+        <li
+          v-for="(item, index) in formatParagraphToList(
+            store.modalCombo.result
+          )"
+          :key="index"
+        >
+          <SymbolText :text="item" />
+        </li>
+      </ul>
       <footer>
         <a
           target="_blank"

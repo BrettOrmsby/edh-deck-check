@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import { ref, computed, watchEffect } from "vue";
-import { getCard, error } from "../compostables/useCards";
+import { getCard, error } from "../../composables/useCards";
 const props = defineProps(["name"]);
 
 const card = computed(() => getCard(props.name));
